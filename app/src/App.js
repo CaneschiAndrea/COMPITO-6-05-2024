@@ -1,23 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
-function App() {
+async function App() {
+  const [partita,setPartita] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [showresults, setResults]= useState(false);
+  async function start(){
+    const response = await fetch("http://localhost:8080/partita" , {
+      method:  'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    const r = await response.json();
+    setPartita(r);
+    setLoading(false);
+    
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>INDOVINA NUMERO</h2>
+      <button onClick={start}>Start the Game !!!</button>
+      {showresults }
+      {isLoading ?<p>Loading:</p> :<><span>ID:</span>{partita.id}</>}
     </div>
   );
 }
