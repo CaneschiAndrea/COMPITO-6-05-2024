@@ -45,21 +45,18 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Indovina il Numero</h2>
+      <h2>Indovina il Numero da 1 a 100</h2>
       <button onClick={startGame}>
         {isLoading ? 'Caricamento...' : 'Inizia la Partita'}
       </button>
       {partita && (
-        <>
-          <p>ID della Partita: {partita.id}</p>
+        <> <p>ID della Partita: {partita.id}</p>
           <div>
             <label htmlFor="numberInput">Indovina il Numero:</label>
             <input type="number" id="numberInput" value={number} onChange={handleInputChange}/>
             <button onClick={guessNumber}> Indovina </button>
           </div>
-          {showResults && (
-            <p>Risultato: {resultText}</p>
-          )}
+          {showResults && ( <p>Risultato: {resultText}</p>)}
         </>
       )}
     </div>
