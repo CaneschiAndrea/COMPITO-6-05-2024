@@ -6,6 +6,7 @@ function App() {
   const [showResults, setShowResults] = useState(false);
   const [number, setNumber] = useState('');
   const [resultText, setResultText] = useState('');
+  let counter = 0;
 
   const handleInputChange = (e) => {
     setNumber(e.target.value);
@@ -25,6 +26,7 @@ function App() {
   };
 
   const guessNumber = async () => {
+    counter++;
     const response = await fetch(`http://localhost:8080/partita/${partita.id}`, {
       method: 'PUT',
       headers: {
@@ -34,13 +36,14 @@ function App() {
     });
     const result = await response.json();
     if (result.risultato === -1) {
-      setResultText("Numero troppo piccolo!");
+      setResultText("Numero troppo piccolo! riprova");
     } else if (result.risultato === 1) {
-      setResultText("Numero troppo grande!");
+      setResultText("Numero troppo grande! riprova");
     } else {
-      setResultText("Hai indovinato il numero!");
+      setResultText("Hai indovinato il numero! in " + counter + " tentativi");
     }
     setShowResults(true);
+    
   };
 
   return (
@@ -52,7 +55,7 @@ function App() {
       {partita && (
         <> <p>ID della Partita: {partita.id}</p>
           <div>
-            <label htmlFor="numberInput">Indovina il Numero:</label>
+            <label htmlFor="numberInput">Indovina il Numero: </label>
             <input type="number" id="numberInput" value={number} onChange={handleInputChange}/>
             <button onClick={guessNumber}> Indovina </button>
           </div>
